@@ -1,4 +1,4 @@
-# h ![badge](https://img.shields.io/badge/license-MIT-blue)
+# y ![badge](https://img.shields.io/badge/license-${response.license}-blue)
 
 ## Description 
 
@@ -6,21 +6,22 @@ y
 
 ## Installation 
 
-h
+y
 
 ## Usage 
 
-h
+y
 
 ## Contributions 
 
-h
+y
 
 ## Test 
 
-h
+y
 
 ## Questions 
 
-Email: h
+Email: Mitch.Mathias@gmail.com
+GitHub: https://github.com/mitchmathias
 

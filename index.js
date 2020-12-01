@@ -1,15 +1,6 @@
 inquirer = require('inquirer');
 fs = require('fs')
 
-var readMeTitle
-var readMeDescription
-var readMeInstallation
-var readMeUsage
-var readMeContributions
-var readMeTest
-var readMeQuestions
-
-
 const questions = [
 
   {
@@ -29,6 +20,11 @@ const questions = [
     type: 'confirm',
     name: 'mitBadge',
     message: "Would you like to add an MIT badge",
+  },
+  {
+    type: 'confirm',
+    name: 'github',
+    message: "Would you like to add your GitHub Profile",
   },
   {
     type: 'input',
@@ -99,17 +95,9 @@ const questions = [
     
   },
   {
-    type: 'input',
+    type: 'confirm',
     name: 'questions',
-    message: "What is your email adress?",
-    validate: function (value) {
-      if (value.trim() == '') {
-        return 'Please enter a valid usage';
-      }
-      else {
-        return true
-      }
-    },
+    message: "Would you like to add your email?",
   },
 ];
 
@@ -118,6 +106,8 @@ inquirer
   .then(answers => {
     // read answers into our global variables
     badge = '![badge](https://img.shields.io/badge/license-${response.license}-blue)'
+    github = "https://github.com/mitchmathias"
+    email = 'Mitch.Mathias@gmail.com'
     readMeTitle = answers.title;
     addBadge = answers.mitBadge
     readMeDescription = answers.description;
@@ -125,7 +115,6 @@ inquirer
     readMeUsage = answers.usage;
     readMeContributions = answers.contributions;
     readMeTest = answers.test;
-    readMeQuestions = answers.questions;
 
 
     fs.writeFileSync("testreadme.md", "# " + readMeTitle + " " + badge + "\n\n")
@@ -140,7 +129,7 @@ inquirer
 
     fs.appendFileSync("testreadme.md", "## Test \n\n" + readMeTest + "\n\n")
 
-    fs.appendFileSync("testreadme.md", "## Questions \n\n" + "Email: " +readMeQuestions + "\n\n")
+    fs.appendFileSync("testreadme.md", "## Questions \n\n" + "Email: " + email + '\n' + "GitHub: " + github + "\n\n")
 
   })
   .catch(error => {
