@@ -5,15 +5,13 @@ var readMeTitle
 var readMeDescription
 var readMeInstallation
 var readMeUsage
+var readMeContributions
+var readMeTest
+var readMeQuestions
 
 
 const questions = [
-  // {
-  //   type: 'confirm',
-  //   name: 'toBeDelivered',
-  //   message: 'Is this for delivery?',
-  //   default: false,
-  // },
+
   {
     type: 'input',
     name: 'title',
@@ -28,9 +26,14 @@ const questions = [
     }
   },
   {
+    type: 'confirm',
+    name: 'mitBadge',
+    message: "Would you like to add an MIT badge",
+  },
+  {
     type: 'input',
     name: 'description',
-    message: "What's your project description?",
+    message: "What's your project's description?",
     validate: function (value) {
       if (value.trim() == '') {
         return 'Please enter a valid description';
@@ -43,7 +46,7 @@ const questions = [
   {
     type: 'input',
     name: 'installation',
-    message: "What's your project installation?",
+    message: "What's your project's installation instructions?",
     validate: function (value) {
       if (value.trim() == '') {
         return 'Please enter a valid installation';
@@ -56,7 +59,7 @@ const questions = [
   {
     type: 'input',
     name: 'usage',
-    message: "What's your project usage?",
+    message: "What's your project's usage information?",
     validate: function (value) {
       if (value.trim() == '') {
         return 'Please enter a valid usage';
@@ -64,114 +67,80 @@ const questions = [
       else {
         return true
       }
-    }
+    },
+    
   },
-  // {
-  //   type: 'list',
-  //   name: 'size',
-  //   message: 'What size do you need?',
-  //   choices: ['Large', 'Medium', 'Small'],
-  //   filter: function (val) {
-  //     return val.toLowerCase();
-  //   },
-  // },
-  // {
-  //   type: 'input',
-  //   name: 'quantity',
-  //   message: 'How many do you need?',
-  //   validate: function (value) {
-  //     var valid = !isNaN(parseFloat(value));
-  //     return valid || 'Please enter a number';
-  //   },
-  //   filter: Number,
-  // },
-  // {
-  //   type: 'expand',
-  //   name: 'toppings',
-  //   message: 'What about the toppings?',
-  //   choices: [
-  //     {
-  //       key: 'p',
-  //       name: 'Pepperoni and cheese',
-  //       value: 'PepperoniCheese',
-  //     },
-  //     {
-  //       key: 'a',
-  //       name: 'All dressed',
-  //       value: 'alldressed',
-  //     },
-  //     {
-  //       key: 'w',
-  //       name: 'Hawaiian',
-  //       value: 'hawaiian',
-  //     },
-  //   ],
-  // },
-  // {
-  //   type: 'rawlist',
-  //   name: 'beverage',
-  //   message: 'You also get a free 2L beverage',
-  //   choices: ['Pepsi', '7up', 'Coke'],
-  // },
-  // {
-  //   type: 'input',
-  //   name: 'comments',
-  //   message: 'Any comments on your purchase experience?',
-  //   default: 'Nope, all good!',
-  // },
-  // {
-  //   type: 'list',
-  //   name: 'prize',
-  //   message: 'For leaving a comment, you get a freebie',
-  //   choices: ['cake', 'fries'],
-  //   when: function (answers) {
-  //     return answers.comments !== 'Nope, all good!';
-  //   },
-  // },
+  {
+    type: 'input',
+    name: 'contributions',
+    message: "Who contributed to the project?",
+    validate: function (value) {
+      if (value.trim() == '') {
+        return 'Please enter a valid usage';
+      }
+      else {
+        return true
+      }
+    },
+    
+  },
+  {
+    type: 'input',
+    name: 'test',
+    message: "What information is needed to test this project?",
+    validate: function (value) {
+      if (value.trim() == '') {
+        return 'Please enter a valid usage';
+      }
+      else {
+        return true
+      }
+    },
+    
+  },
+  {
+    type: 'input',
+    name: 'questions',
+    message: "What is your email adress?",
+    validate: function (value) {
+      if (value.trim() == '') {
+        return 'Please enter a valid usage';
+      }
+      else {
+        return true
+      }
+    },
+  },
 ];
 
 inquirer
   .prompt(questions)
   .then(answers => {
     // read answers into our global variables
-    readMeTitle = answers.title
-    readMeDescription = answers.description
-    readMeInstallation = answers.installation
-    readMeUsage = answers.usage
+    badge = '![badge](https://img.shields.io/badge/license-${response.license}-blue)'
+    readMeTitle = answers.title;
+    addBadge = answers.mitBadge
+    readMeDescription = answers.description;
+    readMeInstallation = answers.installation;
+    readMeUsage = answers.usage;
+    readMeContributions = answers.contributions;
+    readMeTest = answers.test;
+    readMeQuestions = answers.questions;
 
-    console.log(readMeTitle)
-    console.log(readMeDescription)
-    console.log(readMeInstallation)
-    console.log(readMeUsage)
 
+    fs.writeFileSync("testreadme.md", "# " + readMeTitle + " " + badge + "\n\n")
 
+    fs.appendFileSync("testreadme.md", "## Description \n\n" + readMeDescription + "\n\n")
 
-    fs.writeFile("testreadme.md", "# " + readMeTitle + "\n\n", function (err) {
-      if (err) {
-        console.log(err)
-      }
-      else {
-        console.log("File written")
-      }
-    })
+    fs.appendFileSync("testreadme.md", "## Installation \n\n" + readMeInstallation + "\n\n")
 
-    fs.appendFile("testreadme.md", "## Description \n\n", function (err) {
-      if (err) {
-        console.log(err)
-      }
-      else {
-        console.log("File written")
-      }
-    })
+    fs.appendFileSync("testreadme.md", "## Usage \n\n" + readMeUsage + "\n\n")
 
-    fs.appendFile("testreadme.md", readMeDescription + "\n\n", function (err) {
-      if (err) {
-        console.log(err)
-      }
-      else {
-        console.log("File written")
-      }
-    })
+    fs.appendFileSync("testreadme.md", "## Contributions \n\n" + readMeContributions + "\n\n")
+
+    fs.appendFileSync("testreadme.md", "## Test \n\n" + readMeTest + "\n\n")
+
+    fs.appendFileSync("testreadme.md", "## Questions \n\n" + "Email: " +readMeQuestions + "\n\n")
 
   })
   .catch(error => {
